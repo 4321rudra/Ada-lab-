@@ -1,116 +1,114 @@
-#include<iostream>
-#include<algorithm>
-#include<random>
+#include <iostream>
+#include <algorithm>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
-struct object{
+struct object {
     int id;
     double profit;
     double weight;
 };
-void makeobject(object o[],int n,int capacity){
-    for(int i=0;i<n;i++){
-        o[i].id=i;
-        o[i].profit=rand()%capacity+1;
-        o[i].weight=rand()%capacity+1;
+void makeobject(object o[], int n, int capacity) {
+    for(int i = 0; i < n; i++) {
+        o[i].id = i;
+        o[i].profit = rand() % capacity + 1;
+        o[i].weight = rand() % capacity + 1;
     }
 }
-bool comparebyr(object a,object b){
-    double r1=(double)a.profit/a.weight;
-    double r2=(double)b.profit/b.weight;
-    return r1>r2;
-}
-bool comparebyp(object a,object b){
-    double r1=(double)a.profit;
-    double r2=(double)b.profit;
-    return r1>r2;
-}
-bool comparebyw(object a,object b){
-    double r1=(double)a.weight;
-    double r2=(double)b.weight;
-    return r1<r2;
+bool comparebyr(object a, object b) {
+    return (a.profit / a.weight) > (b.profit / b.weight);
 }
 
-double greedyknapsackforr(object o[],int n,double remweight){
-    double netprofit=0;
-    int i=0;
-    sort(o,o+n,comparebyr);
-    while(remweight!=0 &&i<n){
-        if(o[i].weight<remweight){
-            netprofit+=o[i].profit;
-            remweight-=o[i].weight;
-        }
-        else{
-            netprofit+=(double)(remweight/o[i].weight)*o[i].profit;
-            remweight=0;
+bool comparebyp(object a, object b) {
+    return a.profit > b.profit;
+}
+
+bool comparebyw(object a, object b) {
+    return a.weight < b.weight;
+}
+double greedyRatio(object o[], int n, double remweight) {
+    sort(o, o + n, comparebyr);
+
+    double netprofit = 0;
+    int i = 0;
+
+    while(remweight > 0 && i < n) {
+        if(o[i].weight <= remweight) {
+            netprofit += o[i].profit;
+            remweight -= o[i].weight;
+        } else {
+            netprofit += (remweight / o[i].weight) * o[i].profit;
+            remweight = 0;
         }
         i++;
     }
     return netprofit;
 }
-double greedyknapsackforp(object o[],int n,double remweight){
-    double netprofit=0;
-    int i=0;
-    sort(o,o+n,comparebyp);
-    while(remweight!=0 &&i<n){
-        if(o[i].weight<remweight){
-            netprofit+=o[i].profit;
-            remweight-=o[i].weight;
-        }
-        else{
-            netprofit+=(double)(remweight/o[i].weight)*o[i].profit;
-            remweight=0;
-        }
-        i++;
-    }
-    return netprofit;
-}
-double greedyknapsackforw(object o[],int n,double remweight){
-    double netprofit=0;
-    int i=0;
-    sort(o,o+n,comparebyw);
-    while(remweight!=0 &&i<n){
-        if(o[i].weight<remweight){
-            netprofit+=o[i].profit;
-            remweight-=o[i].weight;
-        }
-        else{
-            netprofit+=(double)(remweight/o[i].weight)*o[i].profit;
-            remweight=0;
+double greedyProfit(object o[], int n, double remweight) {
+    sort(o, o + n, comparebyp);
+
+    double netprofit = 0;
+    int i = 0;
+
+    while(remweight > 0 && i < n) {
+        if(o[i].weight <= remweight) {
+            netprofit += o[i].profit;
+            remweight -= o[i].weight;
+        } else {
+            netprofit += (remweight / o[i].weight) * o[i].profit;
+            remweight = 0;
         }
         i++;
     }
     return netprofit;
 }
-void runbenchmark(){
-    object o[100];
-    int iterations=100;
-    double capacity=200;
-    double profitbyr[100];
-    double profitbyw[100];
-    double profitbyp[100];
-    for(int i=5;i<iterations;i=i+5){
-        makeobject(o,i,capacity);
-        profitbyr[i]=greedyknapsackforr(o,i,200);
-        cout<<"Profit by ratio of profit and weight for "<<i<<" objects : "<<profitbyr[i]<<endl;
-        profitbyw[i]=greedyknapsackforw(o,i,200);
-        cout<<"Profit by weight for "<<i<<" objects : "<<profitbyw[i]<<endl;
-        profitbyp[i]=greedyknapsackforp(o,i,200);
-        cout<<"Profit by ratio of profit for"<<i<<" objects : "<<profitbyp[i]<<endl;
 
+double greedyWeight(object o[], int n, double remweight) {
+    sort(o, o + n, comparebyw);
+
+    double netprofit = 0;
+    int i = 0;
+
+    while(remweight > 0 && i < n) {
+        if(o[i].weight <= remweight) {
+            netprofit += o[i].profit;
+            remweight -= o[i].weight;
+        } else {
+            netprofit += (remweight / o[i].weight) * o[i].profit;
+            remweight = 0;
+        }
+        i++;
     }
-
-    // if(profitbyw/100 > profitbyr/100 && profitbyw/100 > profitbyp/100){
-    //     cout<<"Profit by weight is maximum !"<<endl;
-    // }
-    // else if(profitbyw/100 > profitbyr/100 && profitbyw/100< profitbyp){
-    //     cout<<"Profit by profit is maximum !"<<endl;
-    // }
-    // else{
-    //     cout<<"Profit by ratio of profitbyweight is maximum !"<<endl;
-
-    // }
-
+    return netprofit;
 }
-int main(){
-   runbenchmark();
+void runbenchmark() {
+    int iterations = 100;
+    int capacity = 200;
+
+    for(int i = 5; i <= iterations; i += 5) {
+
+        object base[100], o1[100], o2[100], o3[100];
+
+        makeobject(base, i, capacity);
+        for(int j = 0; j < i; j++) {
+            o1[j] = base[j];
+            o2[j] = base[j];
+            o3[j] = base[j];
+        }
+
+        double r = greedyRatio(o1, i, capacity);
+        double w = greedyWeight(o2, i, capacity);
+        double p = greedyProfit(o3, i, capacity);
+
+        cout << "\nObjects: " << i << endl;
+        cout << "Profit (Ratio): " << r << endl;
+        cout << "Profit (Weight): " << w << endl;
+        cout << "Profit (Profit): " << p << endl;
+    }
+}
+
+int main() {
+    srand(time(0)); 
+    runbenchmark();
+    return 0;
 }
