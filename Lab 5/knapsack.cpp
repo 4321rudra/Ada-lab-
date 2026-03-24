@@ -86,7 +86,6 @@ void runbenchmark() {
     int capacity = 200;
 
     for(int i = 5; i <= iterations; i += 5) {
-
         object base[100], o1[100], o2[100], o3[100];
 
         makeobject(base, i, capacity);

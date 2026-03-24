@@ -8,7 +8,7 @@ This directory contains the C++ implementation for Lab 4. The focus is on using 
 **Aim:** To find the $K^{th}$ smallest element in an unsorted array using the Quickselect algorithm (which is based on the Quick Sort partitioning logic).
 
 **Use Case:** * Highly useful in statistics to find the median, percentiles, or top-K elements in massive datasets. 
-* It is much faster than sorting the entire array first (which takes O(n log n) time) when you only care about finding one specific element.
+* It is much faster than sorting the entire array first (which takes O(n logn) time) when you only care about finding one specific element.
 
 **Algorithm:**
 1. **Partitioning:** Choose a pivot element (in this implementation, the last element).

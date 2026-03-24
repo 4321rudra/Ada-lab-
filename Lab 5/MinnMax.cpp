@@ -24,7 +24,7 @@ void minmax(int low, int high,int arr[],int &min ,int &max){
         }
         if(max1>max){
             max=max1;
-        }
+    }
     }
 }
 int main(){

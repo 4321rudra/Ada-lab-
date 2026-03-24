@@ -4,6 +4,7 @@ This directory contains the C++ implementations for Lab 5. The focus of this wee
 
 ---
 
+
 ## Lab 5.1: Fractional Knapsack (Greedy Approach)
 * **File:** `knapsack.cpp`
 * **Aim:** To maximize the total profit of items placed in a knapsack of limited capacity. The program compares three greedy strategies: sorting by profit/weight ratio, sorting by maximum profit, and sorting by minimum weight.
