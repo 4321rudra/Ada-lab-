@@ -68,8 +68,8 @@ void printPath(int route[][o][o], int i, int j)
 }
 int main()
 {
-    int A[o][o] = {{0, 3, 8,INF, },
-                   {INF, 0, INF},
+    int A[o][o] = {{0, 3, 8,INF },
+                   {INF, 0, INF,INF},
                    {5, INF, 0, 1},
                    {2, INF, INF, 0}};
     int cost[o][o];
